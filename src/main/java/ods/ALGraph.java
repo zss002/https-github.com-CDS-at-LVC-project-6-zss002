@@ -3,11 +3,8 @@ package ods;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Queue;
-import java.util.Stack;
-
-
+//lets do this thing
 
 public class ALGraph {
     private Vertex[] graph;
@@ -93,85 +90,14 @@ public class ALGraph {
         }
         return false;
     }
-   
-
-    private int inDegree(int i){
-        List<Integer> edges = new Stack<Integer>();
-        for (int j = 0; j < graph.length; j++) {
-            if(graph[j].contains(i)){
-                edges.add(j);
-            }
-          
-        }
-        return edges.size();
-    }
-    private List<Integer> inDegrees(int i){
-        List<Integer> edges = new Stack<Integer>();
-        for (int j = 0; j < graph.length; j++) {
-            if(graph[j].contains(i)){
-                edges.add(j);
-            }
-          
-        }
-        return edges;
-    }
 
 
-
-    private List<Integer> topSort(){
-        List<Integer> list = new List<Integer>();
-        int[] a = new int[graph.length];
-        for (int i = 0; i<graph.length; i++){
-            a[i] = inDegree(i);
-        }
-        //find a vertex of degree 0
-        int[] zeros = new int[graph.length];
-        for (int k = 0; k<zeros.length; k++){
-            a[k] = -1;
-        }
-        int i = 0;
-        for(int j = 0; j<a.length; j++){
-            if (a[j] == 0){
-                zeros[i] = j;
-                i++;
-            
-            }
-        }
-
-        while(zeros[0]!= -1){
-            list.add(zeros[0]);
-           
-            for(var e: inDegrees(0)){
-                a[e] = a[e]-1;
-            }
-            zeros[0] = zeros[-1];
-            
-
-            
-
-
-        }
-        return list;
-
-
-        }
-        
-
-        
-        
-    
-
-
-    private class Vertex {
+    private static class Vertex {
         ArrayList<Edge> edges;
         // should we store its int id?
 
         Vertex() {
             edges = new ArrayList<>();
-        }
-
-        Boolean contains(int i){
-            if 
         }
     }
 
