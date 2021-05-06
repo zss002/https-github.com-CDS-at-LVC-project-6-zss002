@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Queue;
 //lets do this thing
 
+
 public class ALGraph {
     private Vertex[] graph;
     private boolean isDirected;
@@ -26,6 +27,56 @@ public class ALGraph {
         addEdge(i, j, 1.0);
     }
 
+
+    public int distance(int v, int v2){
+        int [] preds = bfs(v);
+        if (preds[v2] == -1){
+            return 0;
+        }
+        else if (preds[v2] == v){
+            return 1;
+
+        }
+        else{
+            return 1 + distance(v, preds[v2]);
+            
+        }   
+    }
+
+    public double influenceScore(int v){
+        int[] preds = bfs(v);
+        ArrayDeque<Integer> R = new ArrayDeque<>();
+        for(int i = 0; i <preds.length; i++){
+            if (preds[i] != -1){
+                R.add(i);
+            }
+        }
+        double total = 0;
+        double len = R.size()-1;
+        System.out.println("Reachable Vertices " +len);
+
+        while(!R.isEmpty()){
+            total += distance(v, R.poll());
+
+        }
+
+        total = total -1;
+        double averagedist =total/len;
+        System.out.println( "Average Distance " + averagedist);
+        double value = len/(graph.length-1);
+
+        return value/averagedist;
+
+    }
+
+    public double[] influencerRanking() {
+        double[] rankings = new double[graph.length];
+        for(int i = 0; i<rankings.length; i++){
+            rankings[i] = influenceScore(i);
+        }
+        return rankings;
+    }
+
     public void addEdge(int i, int j, double w) {
         if (!vertexCheck(i) || !vertexCheck(j))
             throw new ArrayIndexOutOfBoundsException();
@@ -35,6 +86,11 @@ public class ALGraph {
 
          if (!isDirected) {
             graph[j].edges.add(new Edge(i));
+        }
+    }
+    public void printOutEdges(int i){
+        for(var e: graph[i].edges){
+            System.out.println(e.target);
         }
     }
 
@@ -101,7 +157,7 @@ public class ALGraph {
         }
     }
 
-    private static class Edge {
+    public static class Edge {
         int target;
         // should we store its source?
         double weight;
@@ -115,5 +171,7 @@ public class ALGraph {
             this.target = target;
             this.weight = 1.0;
         }
+
+    
     }
 }
