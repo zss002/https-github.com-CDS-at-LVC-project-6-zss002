@@ -1,10 +1,13 @@
 package ods;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Queue;
 //lets do this thing
+import java.util.Scanner;
 
 
 public class ALGraph {
@@ -53,7 +56,7 @@ public class ALGraph {
         }
         double total = 0;
         double len = R.size()-1;
-        System.out.println("Reachable Vertices " +len);
+        // System.out.println("Reachable Vertices " +len);
 
         while(!R.isEmpty()){
             total += distance(v, R.poll());
@@ -61,9 +64,14 @@ public class ALGraph {
         }
 
         total = total -1;
+        if(total == 0 && len == 0){
+            return -1;
+        }
         double averagedist =total/len;
-        System.out.println( "Average Distance " + averagedist);
+        // System.out.println( "Average Distance " + averagedist);
         double value = len/(graph.length-1);
+
+
 
         return value/averagedist;
 
@@ -74,6 +82,7 @@ public class ALGraph {
         for(int i = 0; i<rankings.length; i++){
             rankings[i] = influenceScore(i);
         }
+     
         return rankings;
     }
 
@@ -157,7 +166,7 @@ public class ALGraph {
         }
     }
 
-    public static class Edge {
+    private static class Edge {
         int target;
         // should we store its source?
         double weight;
@@ -174,4 +183,34 @@ public class ALGraph {
 
     
     }
+    // Create a class that has a constructor that takes a filename as parameter. 
+    // The constructor should open that file, and create some data structures (in particular, an ALGraph, but you'll need more). 
+    // This class should also have an instance method that I can call, passing no parameters and receiving back an array of pairs of strings and doubles. 
+    // The strings should be user names and the doubles should be influencer scores. The array should be sorted by score.
+
+    public static class Influencer {
+        public String[][] users;
+        public int numusers;
+        
+            public Influencer(String file){
+                try {
+                    File myObj = new File(file);
+                    Scanner myReader = new Scanner(myObj);
+                    String tempuser = myReader.nextLine();
+                    numusers = Integer.parseInt(tempuser);
+                    users = new String[numusers][];
+                    for (int i = 0; i< users.length; i++){
+                        users[i] = myReader.nextLine().split(":");
+                    }
+                    myReader.close();
+                  } catch (FileNotFoundException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                  }
+                }
+            }
+        
 }
+
+
+    
