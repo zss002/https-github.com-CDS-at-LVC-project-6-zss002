@@ -32,7 +32,7 @@ public final class App {
         }
         System.out.println();
         System.out.println("Now let's look at Bubbas Website!");
-        System.out.println("Each user and their respective rank is listed below.");
+        System.out.println("Each user and their respective influencer score is listed below.");
         System.out.println("==========================================");
 
         Influencer list = new Influencer("users.txt");
@@ -54,3 +54,7 @@ public final class App {
         }    
     }
 }
+
+//the runtime of influencer ranking is O(v*(v+e)).
+// This is because we are calling BFS on each vertex in the graph.
+//The rest of the operations are constant and do not add to the run time.
