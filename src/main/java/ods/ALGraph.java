@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.Queue;
-//lets do this thing
 import java.util.Scanner;
 
 
@@ -183,10 +183,6 @@ public class ALGraph {
 
     
     }
-    // Create a class that has a constructor that takes a filename as parameter. 
-    // The constructor should open that file, and create some data structures (in particular, an ALGraph, but you'll need more). 
-    // This class should also have an instance method that I can call, passing no parameters and receiving back an array of pairs of strings and doubles. 
-    // The strings should be user names and the doubles should be influencer scores. The array should be sorted by score.
 
     public static class Influencer {
         public String[][] users;
@@ -208,8 +204,71 @@ public class ALGraph {
                     e.printStackTrace();
                   }
                 }
+
+            public ArrayList<InfluencerRank> rankcreator(){
+                String[] userlist = new String[numusers];
+                String[][] followers = new String[numusers][];
+                ArrayList<InfluencerRank> a = new ArrayList<>();
+                
+                for(int i = 0; i < users.length; i++){
+                    userlist[i] = users[i][0];
+                    followers[i] = users[i][1].split("\\s+");
+                    
+                }
+                Hashtable<String, Integer>  number = new Hashtable<String, Integer>();
+                for(int i = 0; i<numusers; i++){
+                    number.put(userlist[i] , i);
+                }
+        
+               
+        
+        
+        
+                ALGraph influencers = new ALGraph(numusers);
+                for(int i = 0; i<numusers; i++){
+                    for(int k = 0; k<followers[i].length; k++)
+                        influencers.addEdge(i, number.get(followers[i][k]));
+                }
+        
+                double [] ranks = influencers.influencerRanking();
+                for(int i = 0; i < ranks.length; i++){
+                    InfluencerRank b = new InfluencerRank(userlist[i], ranks[i]);
+                    a.add(b);
+
+                }
+                return a;
+        
+            }
+                
+                
+        
             }
         
+
+
+public static class InfluencerRank implements Comparable<InfluencerRank> {
+    public String name;
+    public double rank;
+
+    public InfluencerRank(String name, double rank){
+        this.name = name;
+        this.rank = rank;
+    }
+
+    @Override
+    public int compareTo(InfluencerRank o) {
+        // TODO Auto-generated method stub
+        if(this.rank > o.rank){
+            return 1;
+        }
+        else if(this.rank < o.rank){
+            return -1;
+        }
+        return 0;
+
+    }
+
+}
 }
 
 
